@@ -44,6 +44,15 @@ export class App extends Component {
       code:this.refs.code.value
     })
   }
+  login() {
+    ref.authWithOAuthPopup("github", function(error, authData) {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        console.log("Authenticated successfully with payload:", authData);
+      }
+    });
+  }
   render() {
     return (
       <div>
@@ -53,6 +62,8 @@ export class App extends Component {
         <input type='text' ref='code'></input>
         <button onClick={this.submitData.bind(this)}>submit</button>
         <Editor></Editor>
+          <button onClick={this.login.bind(this)}>login</button>
+
       </div>
     );
   }
