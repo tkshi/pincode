@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import Firebase from 'firebase';
 var Codemirror = require('react-codemirror');
 require('codemirror/mode/javascript/javascript');
+require('codemirror/mode/shell/shell');
 
 let ref = new Firebase('https://pincode.firebaseio.com/');
 
@@ -34,7 +35,7 @@ export class App extends Component {
   }
   componentWillMount() {
     ref.child('pins/1').on('value',(snap)=>{
-      this.setState({title:snap.val().title})
+      this.setState({title:snap.val().title,code:snap.val().code})
     })
   }
   submitData() {
@@ -61,9 +62,8 @@ export class App extends Component {
         <h1>{this.state.title}</h1>
         <input type='text' ref='code'></input>
         <button onClick={this.submitData.bind(this)}>submit</button>
-        <Editor></Editor>
+        <Codemirror value={this.state.code} options={{mode:'shell'}}/>
           <button onClick={this.login.bind(this)}>login</button>
-
       </div>
     );
   }
